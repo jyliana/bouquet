@@ -1,8 +1,5 @@
 package flowers;
 
-/**
- * Created by Inna on 8/13/16.
- */
 public class Poppy extends WildFlower {
     public Poppy() {
         super();

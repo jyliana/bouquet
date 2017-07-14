@@ -5,55 +5,41 @@ import flowers.Flower;
 
 import java.util.ArrayList;
 
-/**
- * Created by Inna on 8/13/16.
- */
-public class Bouquet
-{
+public class Bouquet {
     private ArrayList<Flower> flowers;
     private ArrayList<Accessories> accessories;
 
-    public Bouquet(ArrayList<Flower> flowers, ArrayList<Accessories> accessories)
-    {
+    public Bouquet(ArrayList<Flower> flowers, ArrayList<Accessories> accessories) {
         this.flowers = flowers;
         this.accessories = accessories;
     }
 
-    public ArrayList<Flower> getFlowers()
-    {
+    public ArrayList<Flower> getFlowers() {
         return flowers;
     }
 
-    public ArrayList<Accessories> getAccessories()
-    {
+    public ArrayList<Accessories> getAccessories() {
         return accessories;
     }
 
-    public double getTotalCost()
-    {
+    public double getTotalCost() {
         double total = 0;
-        for (Flower element : getFlowers())
-        {
+        for (Flower element : getFlowers()) {
             total += element.getCost();
         }
-        for (Accessories element : getAccessories())
-        {
+        for (Accessories element : getAccessories()) {
             total += element.getCost();
         }
         return total;
     }
 
-    public void printBouquet()
-    {
-        for (Flower element : getFlowers())
-        {
+    public void printBouquet() {
+        for (Flower element : getFlowers()) {
             System.out.println(element.getClass().getSimpleName() + " is " + element.getColor().toString().toLowerCase() + ", its stem length is " + element.stemLength + " cm, " + element.getFreshness().toString().toLowerCase().replace("_", " ") + " and costs " + element.getCost() + " hrn.");
         }
-        if (getAccessories() != null)
-        {
+        if (getAccessories() != null) {
             System.out.println("\nThe bouquet has the next accessories:");
-            for (Accessories element : getAccessories())
-            {
+            for (Accessories element : getAccessories()) {
                 System.out.println(element.toString().toLowerCase().replaceAll("_", " "));
             }
         }

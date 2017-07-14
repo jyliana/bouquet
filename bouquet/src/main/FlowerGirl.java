@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-
 public class FlowerGirl {
     static HashMap<Integer, String> listOfFlowers = new HashMap<>();
 

@@ -11,7 +11,6 @@ public class Main {
         Bouquet bouquet = null;
         String choice = "";
 
-
         while (!choice.equals("e")) {
             System.out.println("Choose one of the next options:");
             System.out.println("0: make random bouquet or bouquet with needed color from required flowers");

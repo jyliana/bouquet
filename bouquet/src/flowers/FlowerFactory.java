@@ -7,9 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Inna on 7/8/17.
- */
 public class FlowerFactory {
    /* private Map<Class, FlowerSetting> flowerSettings = new HashMap<>();
 

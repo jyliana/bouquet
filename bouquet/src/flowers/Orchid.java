@@ -1,6 +1,5 @@
 package flowers;
 
-
 public class Orchid extends DecorativeFlower {
     public Orchid() {
         super();
@@ -13,5 +12,4 @@ public class Orchid extends DecorativeFlower {
         stemLength += 20;
         this.cost += 27;
     }
-
 }

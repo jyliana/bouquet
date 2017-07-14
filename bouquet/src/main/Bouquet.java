@@ -34,6 +34,7 @@ public class Bouquet {
     }
 
     public void printBouquet() {
+        System.out.println("\nPlease, take a bouquet from " + flowers.size() + " flowers:");
         for (Flower element : getFlowers()) {
             System.out.println(element.getClass().getSimpleName() + " is " + element.getColor().toString().toLowerCase() + ", its stem length is " + element.stemLength + " cm, " + element.getFreshness().toString().toLowerCase().replace("_", " ") + " and costs " + element.getCost() + " hrn.");
         }

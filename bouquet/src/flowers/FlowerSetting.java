@@ -23,7 +23,6 @@ public class FlowerSetting {
                 Color.ROSE, Color.YELLOW, Color.RED)));
     }
 
-
     protected static boolean checkInDictionary(Flower flower, Color color) {
         if (map.containsKey(flower.getClass())) {
             if (map.get(flower.getClass()).contains(color))

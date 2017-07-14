@@ -30,7 +30,7 @@ public class FlowerGirl {
         listOfFlowers.put(9, "Violet");
     }
 
-    Pattern pattern = Pattern.compile(".*[^0-9].*");
+    Pattern pattern = Pattern.compile(".*[^0-9+].*");
 
     public Bouquet makeRequiredBouquet() throws Exception {
         ArrayList<Accessories> accessories = new ArrayList<>();
@@ -41,18 +41,17 @@ public class FlowerGirl {
         accessories.add(Accessories.GREENERY);
 
         ArrayList<Flower> flowers = new ArrayList<>();
-
         Bouquet bouquet = null;
-        Flower flower = null;
+        Flower flower;
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("Please enter a number for multiple bouquet or \"Enter\" for default one bouquet:");
+        System.out.println("Please enter a number for multiple bouquets or \"Enter\" for default one bouquet:");
         int number = 0;
         while (number <= 0) {
             try {
                 String number_tmp = reader.readLine();
-                if (number_tmp.equals(""))
+                if (number_tmp.isEmpty())
                     number = 1;
                 else number = Integer.parseInt(number_tmp);
             } catch (Exception e) {
@@ -73,7 +72,7 @@ public class FlowerGirl {
             System.out.println("Please enter needed flower or click \"Enter\" for random choice:");
             String flower_tmp = reader.readLine();
             int in_flower = 0;
-            if (pattern.matcher(flower_tmp).matches()) {
+            if (!pattern.matcher(flower_tmp).matches() && !flower_tmp.isEmpty()) {
                 in_flower = Integer.parseInt(flower_tmp);
                 while (in_flower > 10 && in_flower < 0) {
                     System.out.println("Please choose correct flower:");
@@ -88,7 +87,7 @@ public class FlowerGirl {
                 color = null;
             }
 
-            if (flower_tmp.equals("")) {
+            if (flower_tmp.isEmpty()) {
                 while (flowers.size() < flowers_number) {
                     int tmp = (int) (Math.random() * 10);
                     flower = createFlowerByClassName(listOfFlowers.get(tmp), color);
@@ -136,8 +135,7 @@ public class FlowerGirl {
         listOfFlowers.put(5, "Violet");
         for (int i = 0; i < (int) (Math.random() * 11 + 3); i++) {
             int tmp = (int) (Math.random() * listOfFlowers.size());
-            String receivedName = Flower.class.getPackage().getName() + "." + listOfFlowers.get(tmp);
-            flowers.add(createFlowerByClassName(receivedName, null));
+            flowers.add(createFlowerByClassName(listOfFlowers.get(tmp), null));
         }
         Bouquet bouquet = new Bouquet(flowers, accessories);
         System.out.println("\nPlease, take a bouquet from " + flowers.size() + " wild flowers:");
@@ -159,8 +157,7 @@ public class FlowerGirl {
 
         for (int i = 0; i < (int) (Math.random() * 11 + 3); i++) {
             int tmp = (int) (Math.random() * listOfFlowers.size());
-            String receivedName = Flower.class.getPackage().getName() + "." + listOfFlowers.get(tmp);
-            flowers.add(createFlowerByClassName(receivedName, null));
+            flowers.add(createFlowerByClassName(listOfFlowers.get(tmp), null));
         }
         Bouquet bouquet = new Bouquet(flowers, accessories);
         System.out.println("\nPlease, take a bouquet from " + flowers.size() + " decorative flowers:");
@@ -200,16 +197,17 @@ public class FlowerGirl {
     }
 
     Flower createFlowerByClassName(String strName, Color color) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        String receivedName = Flower.class.getPackage().getName() + "." + strName;
         if (color == null) {
-            return (Flower) Class.forName(strName).getConstructors()[0].newInstance();
+            return (Flower) Class.forName(receivedName).getConstructors()[0].newInstance();
         }
-        return (Flower) Class.forName(strName).getConstructors()[1].newInstance(color);
+        return (Flower) Class.forName(receivedName).getConstructors()[1].newInstance(color);
     }
 
     public Flower createFlower(int flowerKey, Color color) throws Exception {
         Flower flower;
-        String receivedName = Flower.class.getPackage().getName() + "." + listOfFlowers.get(flowerKey);
-        flower = createFlowerByClassName(receivedName, color);
+        /*String receivedName = Flower.class.getPackage().getName() + "." + listOfFlowers.get(flowerKey);*/
+        flower = createFlowerByClassName(listOfFlowers.get(flowerKey), color);
         return flower;
     }
 }

@@ -42,7 +42,7 @@ public class Main {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
-                        System.out.println("The total bouquet's cost: " + new DecimalFormat("#,##0.00").format(bouquet.getTotalCost()) + " hrn.");
+                        System.out.println("The total bouquet's cost: " + new DecimalFormat("#,##0.00").format(bouquet.calcTotalCost()) + " hrn.");
                     break;
                 }
                 case "4": {

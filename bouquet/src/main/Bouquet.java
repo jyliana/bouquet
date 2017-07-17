@@ -22,7 +22,7 @@ public class Bouquet {
         return accessories;
     }
 
-    public double getTotalCost() {
+    public double calcTotalCost() {
         double total = 0;
         for (Flower element : getFlowers()) {
             total += element.getCost();

@@ -15,11 +15,12 @@ public class Flower {
     }
 
     public Flower(Color color) {
-        if (FlowerSetting.checkInDictionary(this, color)) {
-            this.color = color;
-        }
+        /*if (FlowerSetting.checkInDictionary(this, color)) {*/
+        this.color = color;
+        /*}*/
+        this.freshness = FlowerSetting.calcFreshness(this);
         this.cost = FlowerSetting.calcCost(this);
-        this.freshness = getFreshness();
+        this.stemLength = FlowerSetting.getMapOfSettings().get(this.getClass()).getStemLength();
     }
 
     public double getCost() {

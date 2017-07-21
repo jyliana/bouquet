@@ -27,7 +27,7 @@ public class FlowerSetting {
 
     protected static boolean checkInDictionary(Flower flower, Color color) {
         if (mapOfSettings.containsKey(flower.getClass())) {
-            if (mapOfSettings.get(flower.getClass()).allowedColors.contains(color))
+            if (mapOfSettings.get(flower.getClass()).getAllowedColors().contains(color))
                 return true;
         }
         System.out.println("There is no " + flower.getClass().getSimpleName().toLowerCase() + " with such color, please choose other color");
@@ -36,15 +36,15 @@ public class FlowerSetting {
 
     protected static Color calcAllowedColor(Flower flower) {
         if (mapOfSettings.containsKey(flower.getClass())) {
-            int colorIndex = (int) (Math.random() * mapOfSettings.get(flower.getClass()).allowedColors.size());
-            return mapOfSettings.get(flower.getClass()).allowedColors.get(colorIndex);
+            int colorIndex = (int) (Math.random() * mapOfSettings.get(flower.getClass()).getAllowedColors().size());
+            return mapOfSettings.get(flower.getClass()).getAllowedColors().get(colorIndex);
         }
         return null;
     }
 
     public static boolean checkAllowedColor(String nameOfFlower, Color color) {
         for (Map.Entry<Class, FlowerTypeSetting> item : mapOfSettings.entrySet()) {
-            if (item.getKey().getName().contains(nameOfFlower) && item.getValue().allowedColors.contains(color)) {
+            if (item.getKey().getName().contains(nameOfFlower) && item.getValue().getAllowedColors().contains(color)) {
                 return true;
             }
         }
@@ -57,7 +57,7 @@ public class FlowerSetting {
 
     public static double calcCost(Flower flower) {
         if (mapOfSettings.containsKey(flower.getClass())) {
-            return mapOfSettings.get(flower.getClass()).price * 0.9 + mapOfSettings.get(flower.getClass()).getStemLength() * 0.5 + (flower.freshness.ordinal() + 1) * (-1);
+            return mapOfSettings.get(flower.getClass()).getPrice() * 0.9 + mapOfSettings.get(flower.getClass()).getStemLength() * 0.5 + (flower.freshness.ordinal() + 1) * (-1);
         }
         return 0.0;
     }
@@ -66,25 +66,5 @@ public class FlowerSetting {
         Freshness[] listOfFreshness = Freshness.values();
         int tmp = (int) (Math.random() * listOfFreshness.length);
         return listOfFreshness[tmp];
-    }
-
-    static class FlowerTypeSetting {
-        ArrayList<Color> allowedColors;
-        int price;
-        int stemLength;
-
-        public FlowerTypeSetting(ArrayList<Color> allowedColors, int price, int stemLength) {
-            this.allowedColors = allowedColors;
-            this.price = price;
-            this.stemLength = stemLength;
-        }
-
-        public int getPrice() {
-            return price;
-        }
-
-        public int getStemLength() {
-            return stemLength;
-        }
     }
 }

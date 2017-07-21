@@ -59,9 +59,9 @@ public class FlowerGirl {
             }
             if (color != null) {
                 while (!FlowerSetting.checkAllowedColor(listOfFlowers[in_flower], color)) {
-                    System.out.println("Please enter correct color for this flower or any key for random color:");
+                    System.out.println("Please enter correct color for this flower or \"Enter\" for random color:");
                     String line = reader.readLine();
-                    if (line.isEmpty() || pattern.matcher(line).matches()) {
+                    if (line.isEmpty()) {
                         color = null;
                         break;
                     } else

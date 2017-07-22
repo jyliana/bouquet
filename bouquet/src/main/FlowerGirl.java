@@ -16,49 +16,40 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 
 public class FlowerGirl {
-    String[] listOfFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Poppy", "Tulip", "Violet", "Lily", "Orchid", "Rose", "Lotus"};
+    Color color;
+    int int_flower;
+    boolean isRandomFlower;
+    boolean isRandomColor;
+    ArrayList<Flower> flowers;
+
+    String[] listOfFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Lily", "Lotus", "Orchid", "Poppy", "Rose", "Tulip", "Violet"};
     String[] listOfWildFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Poppy", "Tulip", "Violet"};
     String[] listOfDecorativeFlowers = {"Lily", "Orchid", "Rose", "Lotus"};
 
     Pattern pattern = Pattern.compile(".*[^0-9+].*");
 
-    public Bouquet makeRequiredBouquet() throws Exception {
-        ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.ORGANZA, Accessories.DECORATIVE_BUTTERFLY, Accessories.CRYSTALS, Accessories.FEATHERS, Accessories.GREENERY));
-        ArrayList<Flower> flowers = new ArrayList<>();
-        Bouquet bouquet = null;
-        Flower flower = null;
-
+    public void takeOrderDetails() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("Please enter a number of flowers for a bouquet:");
-        int flowers_number = 0;
-        while (!(flowers_number > 0)) {
-            try {
-                flowers_number = Integer.parseInt(reader.readLine());
-            } catch (Exception e) {
-                System.out.println("Please enter correct number:");
-            }
-        }
-
         System.out.println("Please enter needed flower or click any key for random choice:");
+        printListOfAvailableFlowers();
         String flower_tmp = reader.readLine();
-        int in_flower = -1;
         System.out.println("Please enter needed color or click any key for random choice:");
-        Color color;
+
         try {
             color = Color.valueOf(reader.readLine().toUpperCase());
         } catch (Exception e) {
             color = null;
+            isRandomColor = true;
         }
-
         if (!pattern.matcher(flower_tmp).matches() && !flower_tmp.isEmpty()) {
-            in_flower = Integer.parseInt(flower_tmp);
-            while (in_flower > 10 && in_flower < 0) {
+            int_flower = Integer.parseInt(flower_tmp);
+            isRandomFlower = false;
+            while (int_flower > listOfFlowers.length && int_flower < 0) {
                 System.out.println("Please choose correct flower:");
-                in_flower = Integer.parseInt(reader.readLine());
+                int_flower = Integer.parseInt(reader.readLine());
             }
             if (color != null) {
-                while (!FlowerSetting.checkAllowedColor(listOfFlowers[in_flower], color)) {
+                while (!FlowerSetting.checkAllowedColor(listOfFlowers[int_flower], color)) {
                     System.out.println("Please enter correct color for this flower or \"Enter\" for random color:");
                     String line = reader.readLine();
                     if (line.isEmpty()) {
@@ -68,20 +59,34 @@ public class FlowerGirl {
                         color = Color.valueOf(line.toUpperCase());
                 }
             }
+        } else isRandomFlower = true;
+    }
+
+    public boolean addFlower(Bouquet bouquet) throws Exception {
+        Flower flower = null;
+
+        if (isRandomFlower) {
+            int_flower = (int) (Math.random() * listOfFlowers.length);
         }
 
-        while (flowers.size() < flowers_number) {
-            if (pattern.matcher(flower_tmp).matches() || flower_tmp.isEmpty()) {
-                in_flower = (int) (Math.random() * 10);
-            }
-            if (color != null) {
-                if (FlowerSetting.checkAllowedColor(listOfFlowers[in_flower], color))
-                    flower = createFlower(in_flower, color);
-            } else flower = createFlower(in_flower, color);
+        boolean willCreate = (isRandomColor) ||
+                ((!isRandomColor) && FlowerSetting.checkAllowedColor(listOfFlowers[int_flower], color));
+        if (willCreate) {
+            flower = createFlower(int_flower, color);
+            flowers.add(flower);
+            return true;
+        }
+        return false;
+    }
 
-            if (flower != null) {
-                flowers.add(flower);
-            }
+    public Bouquet makeRequiredBouquet(int flowers_number) throws Exception {
+        ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.ORGANZA, Accessories.DECORATIVE_BUTTERFLY, Accessories.CRYSTALS, Accessories.FEATHERS, Accessories.GREENERY));
+        flowers = new ArrayList<>();
+        Bouquet bouquet = null;
+
+        takeOrderDetails();
+        while (flowers.size() < flowers_number) {
+            addFlower(bouquet);
         }
 
         if (bouquet == null) {
@@ -94,7 +99,7 @@ public class FlowerGirl {
     }
 
     public Bouquet makeWildBouquet() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        ArrayList<Flower> flowers = new ArrayList<>();
+        flowers = new ArrayList<>();
         ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.DECORATIVE_PAPER, Accessories.RIBBONS, Accessories.FEATHERS, Accessories.GREENERY));
         for (int i = 0; i < (int) (Math.random() * 11 + 3); i++) {
             int tmp = (int) (Math.random() * listOfWildFlowers.length);
@@ -106,7 +111,7 @@ public class FlowerGirl {
     }
 
     public Bouquet makeDecorativeBouquet() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        ArrayList<Flower> flowers = new ArrayList<>();
+        flowers = new ArrayList<>();
         ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.ORGANZA, Accessories.CRYSTALS, Accessories.FEATHERS));
 
         for (int i = 0; i < (int) (Math.random() * 11 + 3); i++) {
@@ -132,8 +137,8 @@ public class FlowerGirl {
         }
     }
 
-    public void findFlower(Bouquet bouquet) throws IOException {
-        ArrayList<Flower> flowers = new ArrayList<>();
+    public void findFlowersWithStemLength(Bouquet bouquet) throws IOException {
+        flowers = new ArrayList<>();
         Bouquet newBouquet = new Bouquet(flowers, null);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -161,5 +166,11 @@ public class FlowerGirl {
         Flower flower;
         flower = createFlowerByClassName(listOfFlowers[flowerKey], color);
         return flower;
+    }
+
+    public void printListOfAvailableFlowers() {
+        for (int i = 0; i < listOfFlowers.length; i++) {
+            System.out.println(i + " - " + listOfFlowers[i]);
+        }
     }
 }

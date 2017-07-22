@@ -9,64 +9,93 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         FlowerGirl flowerGirl = new FlowerGirl();
         Bouquet bouquet = null;
-        String choice = "";
-
-
-        while (!choice.equals("e")) {
-            System.out.println("Choose one of the next options:");
-            System.out.println("0: make random bouquet or bouquet with needed color from required flowers");
-            System.out.println("1: make bouquet from wild flowers");
-            System.out.println("2: make bouquet from decorative flowers");
-            System.out.println("3: get total cost of the bouquet");
-            System.out.println("4: sort flowers by their freshness");
-            System.out.println("5: find flowers with required stem length");
-            System.out.println("6: print order");
-
-            System.out.println("e: exit");
-            System.out.println("Enter your choice: ");
-            choice = reader.readLine();
+        int choice;
+        boolean quit = false;
+        printMenu();
+        while (!quit) {
+            choice = Integer.parseInt(reader.readLine());
             switch (choice) {
-                case "0": {
-                    bouquet = flowerGirl.makeRequiredBouquet();
+                case 0: {
+                    System.out.println("Exiting");
+                    quit = true;
                     break;
                 }
-                case "1": {
+                case 1: {
+                    System.out.println("Please enter a number of flowers for a bouquet:");
+                    int flowers_number = 0;
+                    while (!(flowers_number > 0)) {
+                        try {
+                            flowers_number = Integer.parseInt(reader.readLine());
+                        } catch (Exception e) {
+                            System.out.println("Please enter correct number:");
+                        }
+                    }
+                    bouquet = flowerGirl.makeRequiredBouquet(flowers_number);
+                    break;
+                }
+                case 2: {
                     bouquet = flowerGirl.makeWildBouquet();
                     break;
                 }
-                case "2": {
+                case 3: {
                     bouquet = flowerGirl.makeDecorativeBouquet();
                     break;
                 }
-                case "3": {
+                case 4: {
+                    flowerGirl.takeOrderDetails();
+                    if (flowerGirl.addFlower(bouquet))
+                        System.out.println("The flower was added to the bouquet");
+                    else System.out.println("The flower was added to the bouquet, something was wrong.");
+                    break;
+                }
+
+                case 5: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         System.out.println("The total bouquet's cost: " + new DecimalFormat("#,##0.00").format(bouquet.calcTotalCost()) + " hrn.");
                     break;
                 }
-                case "4": {
+                case 6: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         flowerGirl.sortFlowers(bouquet);
                     break;
                 }
-                case "5": {
+                case 7: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
-                        flowerGirl.findFlower(bouquet);
+                        flowerGirl.findFlowersWithStemLength(bouquet);
                     break;
                 }
-                case "6": {
+                case 8: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         bouquet.printBouquet();
                     break;
                 }
+                case 9: {
+                    printMenu();
+                    break;
+                }
             }
         }
+    }
+
+    private static void printMenu() {
+        System.out.println("Available options:");
+        System.out.println("0: to quit\n" +
+                "1: make random bouquet or bouquet with needed color from required flowers\n" +
+                "2: make bouquet from wild flowers\n" +
+                "3: make bouquet from decorative flowers\n" +
+                "4: add a flower to the bouquet\n" +
+                "5: get total cost of the bouquet\n" +
+                "6: sort flowers by their freshness\n" +
+                "7: find flowers with required stem length\n" +
+                "8: print the order\n" +
+                "9: print menu");
     }
 }

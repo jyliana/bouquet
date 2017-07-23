@@ -16,19 +16,17 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 
 public class FlowerGirl {
-    Color color;
-    int int_flower;
-    boolean isRandomFlower;
-    boolean isRandomColor;
-    ArrayList<Flower> flowers;
+    private final String[] listOfFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Lily", "Lotus", "Orchid", "Poppy", "Rose", "Tulip", "Violet"};
+    private final String[] listOfWildFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Poppy", "Tulip", "Violet"};
+    private final String[] listOfDecorativeFlowers = {"Lily", "Orchid", "Rose", "Lotus"};
+    private Pattern pattern = Pattern.compile(".*[^0-9+].*");
+    private Color color;
+    private int int_flower;
+    private boolean isRandomFlower;
+    private boolean isRandomColor;
+    private ArrayList<Flower> flowers;
 
-    String[] listOfFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Lily", "Lotus", "Orchid", "Poppy", "Rose", "Tulip", "Violet"};
-    String[] listOfWildFlowers = {"Camomile", "Chrysanthemum", "Lavender", "Poppy", "Tulip", "Violet"};
-    String[] listOfDecorativeFlowers = {"Lily", "Orchid", "Rose", "Lotus"};
-
-    Pattern pattern = Pattern.compile(".*[^0-9+].*");
-
-    public void takeOrderDetails() throws IOException {
+    protected void takeOrderDetails() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter needed flower or click any key for random choice:");
         printListOfAvailableFlowers();
@@ -62,7 +60,7 @@ public class FlowerGirl {
         } else isRandomFlower = true;
     }
 
-    public boolean addFlower(Bouquet bouquet) throws Exception {
+    protected boolean addFlower(Bouquet bouquet) throws Exception {
         Flower flower = null;
 
         if (isRandomFlower) {
@@ -79,7 +77,7 @@ public class FlowerGirl {
         return false;
     }
 
-    public Bouquet makeRequiredBouquet(int flowers_number) throws Exception {
+    protected Bouquet makeRequiredBouquet(int flowers_number) throws Exception {
         ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.ORGANZA, Accessories.DECORATIVE_BUTTERFLY, Accessories.CRYSTALS, Accessories.FEATHERS, Accessories.GREENERY));
         flowers = new ArrayList<>();
         Bouquet bouquet = null;
@@ -94,11 +92,11 @@ public class FlowerGirl {
         } else {
             bouquet.getFlowers().addAll(flowers);
         }
-        bouquet.printBouquet();
+        bouquet.print();
         return bouquet;
     }
 
-    public Bouquet makeWildBouquet() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    protected Bouquet makeWildBouquet() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         flowers = new ArrayList<>();
         ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.DECORATIVE_PAPER, Accessories.RIBBONS, Accessories.FEATHERS, Accessories.GREENERY));
         for (int i = 0; i < (int) (Math.random() * 11 + 3); i++) {
@@ -106,11 +104,11 @@ public class FlowerGirl {
             flowers.add(createFlowerByClassName(listOfWildFlowers[tmp], null));
         }
         Bouquet bouquet = new Bouquet(flowers, accessories);
-        bouquet.printBouquet();
+        bouquet.print();
         return bouquet;
     }
 
-    public Bouquet makeDecorativeBouquet() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    protected Bouquet makeDecorativeBouquet() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         flowers = new ArrayList<>();
         ArrayList<Accessories> accessories = new ArrayList<>(Arrays.asList(Accessories.ORGANZA, Accessories.CRYSTALS, Accessories.FEATHERS));
 
@@ -119,11 +117,11 @@ public class FlowerGirl {
             flowers.add(createFlowerByClassName(listOfDecorativeFlowers[tmp], null));
         }
         Bouquet bouquet = new Bouquet(flowers, accessories);
-        bouquet.printBouquet();
+        bouquet.print();
         return bouquet;
     }
 
-    public void sortFlowers(Bouquet bouquet) {
+    protected void sortFlowers(Bouquet bouquet) {
         Collections.sort(bouquet.getFlowers(), new Comparator<Flower>() {
             public int compare(Flower o1, Flower o2) {
                 if ((o1.getFreshness().ordinal() + 1) - (o2.getFreshness().ordinal() + 1) > 0) return 1;
@@ -133,11 +131,11 @@ public class FlowerGirl {
 
         System.out.println("\n" + "To sort flowers by their freshness:");
         for (Flower element : bouquet.getFlowers()) {
-            System.out.println(element.getClass().getSimpleName() + " is " + element.getColor().toString().toLowerCase() + ", its stem length is " + element.stemLength + "cm, " + element.getFreshness().toString().toLowerCase().replace("_", " ") + " and costs " + element.getCost() + " hrn.");
+            System.out.println(element.getClass().getSimpleName() + " is " + element.getColor().toString().toLowerCase() + ", its stem length is " + element.getStemLength() + "cm, " + element.getFreshness().toString().toLowerCase().replace("_", " ") + " and costs " + element.getCost() + " hrn.");
         }
     }
 
-    public void findFlowersWithStemLength(Bouquet bouquet) throws IOException {
+    protected void findFlowersWithStemLength(Bouquet bouquet) throws IOException {
         flowers = new ArrayList<>();
         Bouquet newBouquet = new Bouquet(flowers, null);
 
@@ -148,13 +146,13 @@ public class FlowerGirl {
         int end = Integer.parseInt(reader.readLine());
 
         for (Flower element : bouquet.getFlowers()) {
-            if (element.stemLength >= start && element.stemLength <= end)
+            if (element.getStemLength() >= start && element.getStemLength() <= end)
                 flowers.add(element);
         }
-        newBouquet.printBouquet();
+        newBouquet.print();
     }
 
-    Flower createFlowerByClassName(String strName, Color color) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    protected Flower createFlowerByClassName(String strName, Color color) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         String receivedName = Flower.class.getPackage().getName() + "." + strName;
         if (color == null) {
             return (Flower) Class.forName(receivedName).getConstructors()[0].newInstance();
@@ -162,13 +160,13 @@ public class FlowerGirl {
         return (Flower) Class.forName(receivedName).getConstructors()[1].newInstance(color);
     }
 
-    public Flower createFlower(int flowerKey, Color color) throws Exception {
+    protected Flower createFlower(int flowerKey, Color color) throws Exception {
         Flower flower;
         flower = createFlowerByClassName(listOfFlowers[flowerKey], color);
         return flower;
     }
 
-    public void printListOfAvailableFlowers() {
+    private void printListOfAvailableFlowers() {
         for (int i = 0; i < listOfFlowers.length; i++) {
             System.out.println(i + " - " + listOfFlowers[i]);
         }

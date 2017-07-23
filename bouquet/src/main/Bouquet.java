@@ -22,7 +22,7 @@ public class Bouquet {
         return accessories;
     }
 
-    public double calcTotalCost() {
+    protected double calcTotalCost() {
         double total = 0;
         for (Flower element : getFlowers()) {
             total += element.getCost();
@@ -33,10 +33,10 @@ public class Bouquet {
         return total;
     }
 
-    public void printBouquet() {
+    protected void print() {
         System.out.println("\nPlease, take a bouquet from " + flowers.size() + " flowers:");
         for (Flower element : getFlowers()) {
-            System.out.println(element.getClass().getSimpleName() + " is " + element.getColor().toString().toLowerCase() + ", its stem length is " + element.stemLength + " cm, " + element.getFreshness().toString().toLowerCase().replace("_", " ") + " and costs " + element.getCost() + " hrn.");
+            System.out.println(element.getClass().getSimpleName() + " is " + element.getColor().toString().toLowerCase() + ", its stem length is " + element.getStemLength() + " cm, " + element.getFreshness().toString().toLowerCase().replace("_", " ") + " and costs " + element.getCost() + " hrn.");
         }
         if (getAccessories() != null) {
             System.out.println("\nThe bouquet has the next accessories:");

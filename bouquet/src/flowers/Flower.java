@@ -1,11 +1,10 @@
 package flowers;
 
 public class Flower {
-    public Color color;
-    public int stemLength;
-    protected double cost;
-    Freshness freshness;
-
+    private Color color;
+    private int stemLength;
+    private double cost;
+    private Freshness freshness;
 
     public Flower() {
         this.color = FlowerSetting.calcAllowedColor(this);
@@ -31,5 +30,9 @@ public class Flower {
 
     public Color getColor() {
         return color;
+    }
+
+    public int getStemLength() {
+        return stemLength;
     }
 }

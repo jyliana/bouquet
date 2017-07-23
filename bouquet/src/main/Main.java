@@ -74,7 +74,7 @@ public class Main {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
-                        bouquet.printBouquet();
+                        bouquet.print();
                     break;
                 }
                 case 9: {

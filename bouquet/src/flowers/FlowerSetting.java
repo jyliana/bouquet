@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FlowerSetting {
-    static private Map<Class, FlowerTypeSetting> mapOfSettings = new HashMap<>();
+    static final private Map<Class, FlowerTypeSetting> mapOfSettings = new HashMap<>();
 
     static {
         mapOfSettings.put(Lotus.class, new FlowerTypeSetting(new ArrayList<>(Arrays.asList(Color.BLUE, Color.WHITE, Color.ROSE)), 40, 10));
@@ -23,15 +23,6 @@ public class FlowerSetting {
                 Color.ROSE, Color.YELLOW, Color.GOLDEN, Color.RED)), 30, 20));
         mapOfSettings.put(Tulip.class, new FlowerTypeSetting(new ArrayList<>(Arrays.asList(Color.BLACK, Color.WHITE, Color.ORANGE,
                 Color.ROSE, Color.YELLOW, Color.RED)), 20, 15));
-    }
-
-    protected static boolean checkInDictionary(Flower flower, Color color) {
-        if (mapOfSettings.containsKey(flower.getClass())) {
-            if (mapOfSettings.get(flower.getClass()).getAllowedColors().contains(color))
-                return true;
-        }
-        System.out.println("There is no " + flower.getClass().getSimpleName().toLowerCase() + " with such color, please choose other color");
-        return false;
     }
 
     protected static Color calcAllowedColor(Flower flower) {
@@ -55,14 +46,14 @@ public class FlowerSetting {
         return mapOfSettings;
     }
 
-    public static double calcCost(Flower flower) {
+    protected static double calcCost(Flower flower) {
         if (mapOfSettings.containsKey(flower.getClass())) {
-            return mapOfSettings.get(flower.getClass()).getPrice() * 0.9 + mapOfSettings.get(flower.getClass()).getStemLength() * 0.5 + (flower.freshness.ordinal() + 1) * (-1);
+            return mapOfSettings.get(flower.getClass()).getPrice() * 0.9 + mapOfSettings.get(flower.getClass()).getStemLength() * 0.5 + (flower.getFreshness().ordinal() + 1) * (-1);
         }
         return 0.0;
     }
 
-    public static Freshness calcFreshness(Flower flower) {
+    protected static Freshness calcFreshness(Flower flower) {
         Freshness[] listOfFreshness = Freshness.values();
         int tmp = (int) (Math.random() * listOfFreshness.length);
         return listOfFreshness[tmp];

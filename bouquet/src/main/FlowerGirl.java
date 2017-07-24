@@ -31,20 +31,20 @@ public class FlowerGirl {
         System.out.println("Please enter needed flower or click any key for random choice:");
         printListOfAvailableFlowers();
         String flower_tmp = reader.readLine();
-        System.out.println("Please enter needed color or click any key for random choice:");
 
-        try {
-            color = Color.valueOf(reader.readLine().toUpperCase());
-        } catch (Exception e) {
-            color = null;
-            isRandomColor = true;
-        }
         if (!pattern.matcher(flower_tmp).matches() && !flower_tmp.isEmpty()) {
             int_flower = Integer.parseInt(flower_tmp);
             isRandomFlower = false;
-            while (int_flower > listOfFlowers.length && int_flower < 0) {
+            while (int_flower > listOfFlowers.length || int_flower < 0) {
                 System.out.println("Please choose correct flower:");
                 int_flower = Integer.parseInt(reader.readLine());
+            }
+            System.out.println("Please enter needed color or click any key for random choice:");
+            try {
+                color = Color.valueOf(reader.readLine().toUpperCase());
+            } catch (Exception e) {
+                color = null;
+                isRandomColor = true;
             }
             if (color != null) {
                 while (!FlowerSetting.checkAllowedColor(listOfFlowers[int_flower], color)) {
@@ -58,6 +58,33 @@ public class FlowerGirl {
                 }
             }
         } else isRandomFlower = true;
+    }
+
+    protected boolean addAccessories(Bouquet bouquet) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ArrayList<Accessories> listOfAccessories = new ArrayList<>(Arrays.asList(Accessories.values()));
+        Accessories newAccessory;
+
+        System.out.println("Please enter needed accessories:");
+        for (int i = 0; i < listOfAccessories.size(); i++) {
+            System.out.println(i + " - " + listOfAccessories.get(i).toString().toLowerCase());
+        }
+        String accessories_tmp = reader.readLine();
+        int int_accessory;
+        if (!pattern.matcher(accessories_tmp).matches() && !accessories_tmp.isEmpty()) {
+            int_accessory = Integer.parseInt(accessories_tmp);
+            while (int_accessory > listOfAccessories.size() || int_accessory < 0) {
+                System.out.println("Please enter correct number for an accessory");
+                int_accessory = Integer.parseInt(reader.readLine());
+            }
+            newAccessory = listOfAccessories.get(int_accessory);
+            if (!bouquet.getAccessories().contains(newAccessory)) {
+                bouquet.getAccessories().add(newAccessory);
+                System.out.println("The accessory " + newAccessory.toString().toLowerCase() + " was added to the bouquet");
+                return true;
+            } else System.out.println("The bouquet has already contains " + newAccessory.toString().toLowerCase());
+        }
+        return false;
     }
 
     protected boolean addFlower(Bouquet bouquet) throws Exception {

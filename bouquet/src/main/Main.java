@@ -48,36 +48,42 @@ public class Main {
                     else System.out.println("The flower was added to the bouquet, something was wrong.");
                     break;
                 }
-
                 case 5: {
+                    if (!flowerGirl.addAccessories(bouquet)) {
+                        System.out.println("The accessory was not added to the bouquet, something was wrong.");
+                    }
+                    break;
+                }
+
+                case 6: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         System.out.println("The total bouquet's cost: " + new DecimalFormat("#,##0.00").format(bouquet.calcTotalCost()) + " hrn.");
                     break;
                 }
-                case 6: {
+                case 7: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         flowerGirl.sortFlowers(bouquet);
                     break;
                 }
-                case 7: {
+                case 8: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         flowerGirl.findFlowersWithStemLength(bouquet);
                     break;
                 }
-                case 8: {
+                case 9: {
                     if (bouquet == null)
                         System.out.println("Please order a bouquet first.");
                     else
                         bouquet.print();
                     break;
                 }
-                case 9: {
+                case 10: {
                     printMenu();
                     break;
                 }
@@ -92,10 +98,11 @@ public class Main {
                 "2: make bouquet from wild flowers\n" +
                 "3: make bouquet from decorative flowers\n" +
                 "4: add a flower to the bouquet\n" +
-                "5: get total cost of the bouquet\n" +
-                "6: sort flowers by their freshness\n" +
-                "7: find flowers with required stem length\n" +
-                "8: print the order\n" +
-                "9: print menu");
+                "5: add an accessories to the bouquet\n" +
+                "6: get total cost of the bouquet\n" +
+                "7: sort flowers by their freshness\n" +
+                "8: find flowers with required stem length\n" +
+                "9: print the order\n" +
+                "10: print menu");
     }
 }

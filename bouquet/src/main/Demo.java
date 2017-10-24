@@ -8,8 +8,8 @@ public class Demo {
         int count = 50;
         StringBuilder instances = new StringBuilder();
         FileWriter fileWriter = new FileWriter("out.txt");
-        String template1 = "";
-        String template2 = "";
+        StringBuilder template1 = new StringBuilder();
+        StringBuilder template2 = new StringBuilder();
         instances.append("[general]\n" +
                 "service_script_postfix = Core\n" +
                 "tmp2 = !{{{gen_sprfiles_rule:\n" +
@@ -23,9 +23,10 @@ public class Demo {
                 " folders=[\n");
         for (int i = 1; i <= count; i++) {
             String tmp = String.format("%04d", i);
-            template1 += "      {\"path\":\"/sunrise" + tmp + "/config/etadirect\";\"path_dest\":\"/sunrise" + tmp + "/config/etadirect\";\"perm\":\"0640\"};\n" +
-                         "      {\"path\":\"/sunrise" + tmp + "/config/rc.d\";\"path_dest\":\"/sunrise" + tmp + "/config/rc.d\";\"perm\":\"0640\"}\n";
-            template2 += "      {\"prefix\":\"/sunrise" + tmp + "/config\";\"prefix_dest\":\"/sunrise" + tmp + "/config\";\"perm\":\"0640\";\"ext\":\".*\\\\\\\\.ini\"}\n";
+
+            template1.append(String.format("      {\"path\":\"/sunrise%s/config/etadirect\";\"path_dest\":\"/sunrise%s/config/etadirect\";\"perm\":\"0640\"};\n" +
+                                           "      {\"path\":\"/sunrise%s/config/rc.d\";\"path_dest\":\"/sunrise%s/config/rc.d\";\"perm\":\"0640\"}\n", tmp, tmp, tmp, tmp));
+            template2.append(String.format("      {\"prefix\":\"/sunrise%s/config\";\"prefix_dest\":\"/sunrise%s/config\";\"perm\":\"0640\";\"ext\":\".*\\\\\\\\.ini\"}\n", tmp, tmp));
         }
 
         instances.append(template1);

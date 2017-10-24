@@ -5,7 +5,6 @@ import java.io.IOException;
 
 public class Demo {
     public static void main(String[] args) throws IOException {
-        System.out.println("test");
         int count = 50;
         StringBuilder instances = new StringBuilder();
         FileWriter fileWriter = new FileWriter("out.txt");
@@ -25,7 +24,7 @@ public class Demo {
         for (int i = 1; i <= count; i++) {
             String tmp = String.format("%04d", i);
             template1 += "      {\"path\":\"/sunrise" + tmp + "/config/etadirect\";\"path_dest\":\"/sunrise" + tmp + "/config/etadirect\";\"perm\":\"0640\"};\n" +
-                    "      {\"path\":\"/sunrise" + tmp + "/config/rc.d\";\"path_dest\":\"/sunrise" + tmp + "/config/rc.d\";\"perm\":\"0640\"}\n";
+                         "      {\"path\":\"/sunrise" + tmp + "/config/rc.d\";\"path_dest\":\"/sunrise" + tmp + "/config/rc.d\";\"perm\":\"0640\"}\n";
             template2 += "      {\"prefix\":\"/sunrise" + tmp + "/config\";\"prefix_dest\":\"/sunrise" + tmp + "/config\";\"perm\":\"0640\";\"ext\":\".*\\\\\\\\.ini\"}\n";
         }
 

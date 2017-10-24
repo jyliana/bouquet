@@ -33,16 +33,13 @@ public class Demo {
         instances.append(" ],\n\n" +
                 " files=[\n");
         instances.append(template2);
-
         instances.append("],\n" +
                 "   namespaces=[\n" +
                 "   {\"main\":[{\"0\":\"eta_be_app\"}]}\n" +
                 "   ]\n" +
                 "}}}!");
 
-
         fileWriter.write(instances.toString());
         fileWriter.close();
     }
-
 }
